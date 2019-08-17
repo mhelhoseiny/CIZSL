@@ -1,9 +1,7 @@
 # CIZSL
 Creativity Inspired Zero-Shot Learning
 
-Code written by Mohamed Elfeki and Mohamed Elhoseiny
-
-Source code for 
+Source Code written by Mohamed Elfeki and Mohamed Elhoseiny 
 
 Mohamed Elhoseiny, Mohamed Elfeki, Creativity Inspired Zero Shot Learning, Thirty-sixth International Conference on Computer Vision  (ICCV), 2019
 
