@@ -208,7 +208,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
         text_feat_mean = normalize(text_feat_mean, norm='l2', axis=1)
         text_feat_Creative = Variable(torch.from_numpy(text_feat_mean.astype('float32'))).cuda()
         z_creative = Variable(torch.randn(opt.batchsize, param.z_dim)).cuda()
-        G_creative_sample = netG(z_creative, text_feat_Creative).detach()
+        G_creative_sample = netG(z_creative, text_feat_Creative)
 
         """ Discriminator """
         for _ in range(5):
