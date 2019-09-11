@@ -32,18 +32,24 @@ Run "train_CIZSL.py" as follows
 
 With Cross Validation (Slower, might take  2-3 days(each) based on the compute power)
 --------------------------------------------------------------------------------
-python train_CIZSL.py --dataset CUB --splitmode easy --validate 1
-python train_CIZSL.py --dataset CUB --splitmode hard --validate 1
-python train_CIZSL.py --dataset NAB --splitmode easy --validate 1
-python train_CIZSL.py --dataset CUB --splitmode hard --validate 1
+`python train_CIZSL.py --dataset CUB --splitmode easy --validate 1`
+
+`python train_CIZSL.py --dataset CUB --splitmode hard --validate 1`
+
+`python train_CIZSL.py --dataset NAB --splitmode easy --validate 1`
+
+`python train_CIZSL.py --dataset CUB --splitmode hard --validate 1`
 
 
 Without Cross Validation (Faster, <1 day (each)), creativity_weight selected by cross validation. 
 ------------------------------------------------
-python train_CIZSL.py --dataset CUB --splitmode easy --creativity_weight 0.0001
-python train_CIZSL.py --dataset CUB --splitmode hard --creativity_weight 0.1
-python train_CIZSL.py --dataset NAB --splitmode easy --creativity_weight 1
-python train_CIZSL.py --dataset CUB --splitmode hard --creativity_weight 0.1
+`python train_CIZSL.py --dataset CUB --splitmode easy --creativity_weight 0.0001`
+
+`python train_CIZSL.py --dataset CUB --splitmode hard --creativity_weight 0.1`
+
+`python train_CIZSL.py --dataset NAB --splitmode easy --creativity_weight 1`
+
+`python train_CIZSL.py --dataset CUB --splitmode hard --creativity_weight 0.1`
 
 
 
