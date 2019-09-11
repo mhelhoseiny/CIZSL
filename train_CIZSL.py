@@ -372,10 +372,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
             acc_fake = (np.argmax(C_fake.data.cpu().numpy(), axis=1) == y_true.data.cpu().numpy()).sum() / float(
                 y_true.data.size()[0])
 
-            log_text = 'Iter-{}; Was_D: {:.4}; Euc_ls: {:.4}; reg_ls: {:.4}; Wz_ls: {:.4}; G_loss: {:.4}; D_loss_real: {:.4};' \
-                       ' D_loss_fake: {:.4}; rl: {:.4}%; fk: {:.4}%' \
-                .format(it, Wasserstein_D.data[0], Euclidean_loss.data[0], reg_loss.data[0], reg_Wz_loss.data[0],
-                        G_loss.data[0], D_loss_real.data[0], D_loss_fake.data[0], acc_real * 100, acc_fake * 100)
+            log_text =  'Iter-{}; rl: {:.4}%; fk: {:.4}%'.format(it, acc_real * 100, acc_fake * 100)
             print(log_text)
             with open(log_dir, 'a') as f:
                 f.write(log_text + '\n')
