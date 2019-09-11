@@ -230,7 +230,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
             DC_loss.backward()
 
             # GAN's D loss
-            G_sample = netG(z, text_feat).detach()
+            G_sample = netG(z, text_feat)
             D_fake, C_fake = netD(G_sample)
             D_loss_fake = torch.mean(D_fake)
             C_loss_fake = F.cross_entropy(C_fake, y_true)
