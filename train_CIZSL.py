@@ -23,6 +23,7 @@ import random
 import glob
 import copy
 import sys
+from tqdm import tqdm
 
 from dataset import FeatDataLayer, LoadDataset, LoadDataset_NAB
 from models import _netD, _netG, _param
@@ -30,7 +31,7 @@ from models import _netD, _netG, _param
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dataset', type=str, help='dataset to be used: CUB/NAB', default='CUB')
-parser.add_argument('--splitmode', type=str, help='the way to split train/test data: easy/hard', default='hard')
+parser.add_argument('--splitmode', type=str, help='the way to split train/test data: easy/hard', default='easy')
 parser.add_argument('--model_number', type=int, help='Model-Number: 1 for KL, 2 for Sharma-Entropy, 3 for Bachatera,'
                                                      '4 for Tsallis, 5 for Renyi, 6 K+1 Classification', default=2)
 parser.add_argument('--exp_name', default='Reproduce', type=str, help='Experiment Name')
@@ -51,7 +52,7 @@ parser.add_argument('--manualSeed', type=int, help='manual seed')
 parser.add_argument('--resume', type=str, help='the model to resume')
 parser.add_argument('--disp_interval', type=int, default=20)
 parser.add_argument('--save_interval', type=int, default=200)
-parser.add_argument('--evl_interval', type=int, default=40)
+parser.add_argument('--evl_interval', type=int, default=1)
 
 opt = parser.parse_args()
 print(opt)
@@ -80,7 +81,6 @@ torch.manual_seed(opt.manualSeed)
 torch.cuda.manual_seed_all(opt.manualSeed)
 
 main_dir = opt.main_dir
-
 
 class ListModule(nn.Module):
     def __init__(self, *args):
@@ -117,7 +117,6 @@ class Scale(nn.Module):
         for layer in self.layers:
             out = layer(out)
         return out
-
 
 def train(creative_weight=1000, model_num=1, is_val=True):
     param = _param()
@@ -190,7 +189,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
     if model_num == 2 or model_num == 4 or model_num == 5:
         optimizer_SM_ab = optim.Adam(log_SM_ab.parameters(), lr=opt.lr, betas=(0.5, 0.999))
 
-    for it in range(start_step, 3000 + 1):
+    for it in tqdm(range(start_step, 3000 + 1)):
         # Creative Loss
         blobs = data_layer.forward()
         labels = blobs['labels'].astype(int)
@@ -230,7 +229,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
             DC_loss.backward()
 
             # GAN's D loss
-            G_sample = netG(z, text_feat)
+            G_sample = netG(z, text_feat).detach()
             D_fake, C_fake = netD(G_sample)
             D_loss_fake = torch.mean(D_fake)
             C_loss_fake = F.cross_entropy(C_fake, y_true)
@@ -373,29 +372,30 @@ def train(creative_weight=1000, model_num=1, is_val=True):
                 y_true.data.size()[0])
 
             log_text =  'Iter-{}; rl: {:.4}%; fk: {:.4}%'.format(it, acc_real * 100, acc_fake * 100)
-            print(log_text)
             with open(log_dir, 'a') as f:
                 f.write(log_text + '\n')
 
-        if it % opt.evl_interval == 0 and it >= 100:
+        if it % opt.evl_interval == 0:
             netG.eval()
             cur_acc = eval_fakefeat_test(it, netG, dataset, param, result)
             cur_auc = eval_fakefeat_GZSL(netG, dataset, param, out_subdir, result)
-            # print("{}: Accuracy is {:.4}%, and Generalized AUC is {:.4}%".format(it, cur_acc, cur_auc))
 
-            if cur_acc > result.best_acc:
+            if cur_auc > result.best_auc:
                 result.best_auc = cur_auc
                 result.best_acc = cur_acc
-                files2remove = glob.glob(out_subdir + '/Best_model*')
-                for _i in files2remove:
-                    os.remove(_i)
-                torch.save({
-                    'it': it + 1,
-                    'state_dict_G': netG.state_dict(),
-                    'state_dict_D': netD.state_dict(),
-                    'random_seed': opt.manualSeed,
-                    'log': log_text,
-                }, out_subdir + '/Best_model_AUC_{:.2f}.tar'.format(cur_auc))
+
+                if it % opt.save_interval:
+                    files2remove = glob.glob(out_subdir + '/Best_model*')
+                    for _i in files2remove:
+                        os.remove(_i)
+                    torch.save({
+                        'it': it + 1,
+                        'state_dict_G': netG.state_dict(),
+                        'state_dict_D': netD.state_dict(),
+                        'random_seed': opt.manualSeed,
+                        'log': log_text,
+                    }, out_subdir + '/Best_model_AUC_{:.2f}.tar'.format(cur_auc))
+
             netG.train()
     return result
 
