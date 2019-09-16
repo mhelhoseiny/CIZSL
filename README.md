@@ -8,7 +8,7 @@ Mohamed Elhoseiny, Mohamed Elfeki, Creativity Inspired Zero Shot Learning, Thirt
 
 
 # Requirements
-Python 2.7
+Python 3.5
 
 Pytorch 0.4.1
 
@@ -30,7 +30,7 @@ P.S. We obtained those values by cross-validation, which can be found in "return
 Run "train_CIZSL.py" as follows
 
 
-With Cross Validation (Slower, might take  2-3 days(each) based on the compute power)
+With Cross Validation (Slower)
 --------------------------------------------------------------------------------
 `python train_CIZSL.py --dataset CUB --splitmode easy --validate 1`
 
@@ -41,7 +41,7 @@ With Cross Validation (Slower, might take  2-3 days(each) based on the compute p
 `python train_CIZSL.py --dataset CUB --splitmode hard --validate 1`
 
 
-Without Cross Validation (Faster, <1 day (each)), creativity_weight selected by cross validation. 
+Without Cross Validation (Faster), creativity_weight selected by cross validation. 
 ------------------------------------------------
 `python train_CIZSL.py --dataset CUB --splitmode easy --creativity_weight 0.0001`
 
