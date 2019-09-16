@@ -375,7 +375,7 @@ def train(creative_weight=1000, model_num=1, is_val=True):
             with open(log_dir, 'a') as f:
                 f.write(log_text + '\n')
 
-        if it % opt.evl_interval == 0:
+        if it % opt.evl_interval == 0 and it > opt.disp_interval:
             netG.eval()
             cur_acc = eval_fakefeat_test(it, netG, dataset, param, result)
             cur_auc = eval_fakefeat_GZSL(netG, dataset, param, out_subdir, result)
