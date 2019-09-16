@@ -34,7 +34,7 @@ class LoadDataset(object):
         if is_val:
             data_features = sio.loadmat(pfc_feat_path_train)['pfc_feat'].astype(np.float32)
             with open(pfc_label_path_train) as fout:
-                data_labels = pickle.load(fout)
+                data_labels = pickle.load(fout, encoding="latin1")
 
             self.pfc_feat_data_train = data_features[data_labels < train_cls_num]
             self.pfc_feat_data_test = data_features[data_labels >= train_cls_num]
@@ -50,8 +50,8 @@ class LoadDataset(object):
             self.pfc_feat_data_test = sio.loadmat(pfc_feat_path_test)['pfc_feat'].astype(np.float32)
             # calculate the corresponding centroid.
             with open(pfc_label_path_train, 'rb') as fout1, open(pfc_label_path_test, 'rb') as fout2:
-                self.labels_train = pickle.load(fout1)
-                self.labels_test = pickle.load(fout2)
+                self.labels_train = pickle.load(fout1, encoding="latin1")
+                self.labels_test = pickle.load(fout2, encoding="latin1")
 
         self.train_cls_num = train_cls_num  # Y_train
         self.test_cls_num = test_cls_num  # Y_test
@@ -104,7 +104,7 @@ class LoadDataset_NAB(object):
         if is_val:
             data_features = sio.loadmat(pfc_feat_path_train)['pfc_feat'].astype(np.float32)
             with open(pfc_label_path_train) as fout:
-                data_labels = pickle.load(fout)
+                data_labels = pickle.load(fout, encoding="latin1")
 
             self.pfc_feat_data_train = data_features[data_labels < train_cls_num]
             self.pfc_feat_data_test = data_features[data_labels >= train_cls_num]
@@ -120,8 +120,8 @@ class LoadDataset_NAB(object):
             self.pfc_feat_data_test = sio.loadmat(pfc_feat_path_test)['pfc_feat'].astype(np.float32)
 
             with open(pfc_label_path_train, 'rb') as fout1, open(pfc_label_path_test, 'rb') as fout2:
-                self.labels_train = pickle.load(fout1)
-                self.labels_test = pickle.load(fout2)
+                self.labels_train = pickle.load(fout1, encoding="latin1")
+                self.labels_test = pickle.load(fout2, encoding="latin1")
 
         self.train_cls_num = train_cls_num  # Y_train
         self.test_cls_num = test_cls_num  # Y_test
