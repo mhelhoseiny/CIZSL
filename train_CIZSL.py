@@ -52,7 +52,8 @@ parser.add_argument('--manualSeed', type=int, help='manual seed')
 parser.add_argument('--resume', type=str, help='the model to resume')
 parser.add_argument('--disp_interval', type=int, default=20)
 parser.add_argument('--save_interval', type=int, default=200)
-parser.add_argument('--evl_interval', type=int, default=1)
+parser.add_argument('--evl_interval', type=int, default=1)  
+# You might change the eval_interval to a higher value if wants to train the model faster, but not evaluate it at each step.
 
 opt = parser.parse_args()
 print(opt)
@@ -379,10 +380,12 @@ def train(creative_weight=1000, model_num=1, is_val=True):
             netG.eval()
             cur_acc = eval_fakefeat_test(it, netG, dataset, param, result)
             cur_auc = eval_fakefeat_GZSL(netG, dataset, param, out_subdir, result)
+            
+            if cur_acc > result.best_acc:
+              result.best_acc = cur_acc
 
             if cur_auc > result.best_auc:
                 result.best_auc = cur_auc
-                result.best_acc = cur_acc
 
                 if it % opt.save_interval:
                     files2remove = glob.glob(out_subdir + '/Best_model*')
