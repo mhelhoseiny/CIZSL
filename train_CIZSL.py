@@ -52,7 +52,7 @@ parser.add_argument('--manualSeed', type=int, help='manual seed')
 parser.add_argument('--resume', type=str, help='the model to resume')
 parser.add_argument('--disp_interval', type=int, default=20)
 parser.add_argument('--save_interval', type=int, default=200)
-parser.add_argument('--evl_interval', type=int, default=1)  
+parser.add_argument('--evl_interval', type=int, default=10)  
 # You might change the eval_interval to a higher value if wants to train the model faster, but not evaluate it at each step.
 
 opt = parser.parse_args()
