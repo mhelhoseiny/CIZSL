@@ -31,7 +31,7 @@ from models import _netD, _netG, _param
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dataset', type=str, help='dataset to be used: CUB/NAB', default='CUB')
-parser.add_argument('--splitmode', type=str, help='the way to split train/test data: easy/hard', default='easy')
+parser.add_argument('--splitmode', type=str, help='the way to split train/test data: easy/hard', default='hard')
 parser.add_argument('--model_number', type=int, help='Model-Number: 1 for KL, 2 for Sharma-Entropy, 3 for Bachatera,'
                                                      '4 for Tsallis, 5 for Renyi, 6 K+1 Classification', default=2)
 parser.add_argument('--exp_name', default='Reproduce', type=str, help='Experiment Name')
