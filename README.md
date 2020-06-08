@@ -23,7 +23,7 @@ Please put the uncompressed data to the folder "data"
 
 Run "run.sh" as follows: ./run.sh
 
-<! Set the experiment parameters as parser arguments: Dataset, Splitmode, model-number, and the **main_dir** in "train_CIZSL.py"
+<!-- Set the experiment parameters as parser arguments: Dataset, Splitmode, model-number, and the **main_dir** in "train_CIZSL.py"
 
 Set the value of creativity_weight with the corresponding value to the dataset/splitmode found in the main of "train_CIZSL.py". If the value of the weight is unknown, set 'validate' to 1, and it will perform cross-validation to obtain the optimal weight, then use it to infer the ZSL.
 
@@ -54,5 +54,5 @@ Without Cross Validation (Faster), creativity_weight selected by cross validatio
 
 `python train_CIZSL.py --dataset NAB --splitmode hard --creativity_weight 0.1`
 
->
+-->
 
